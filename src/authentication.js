@@ -14,11 +14,19 @@ export class Authentication {
     if (validPassword === password) {
       return true
     }
+    this.notifyUser(`Account: ${account} try to login failed.`)
     return false
   }
 
   getPassword(account) {
     const profile = new Profile()
     return profile.getPassword(account)
+  }
+
+  notifyUser(message) {
+    // todo
+    // const notification = new Notification()
+    // notification.notify(`Account: ${userId} try to login failed.`)
+    console.log(message)
   }
 }
