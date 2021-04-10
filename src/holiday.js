@@ -6,7 +6,7 @@ const holidayFunction = (date = getToday()) => {
   const month = date.getUTCMonth() + 1
   const day = date.getUTCDate() + 1
 
-  if (month === 12 && day === 25) {
+  if (month === 12 && (day === 25 || day === 24)) {
     return 'Merry Xmas'
   }
   return 'Today is not Xmas'
@@ -19,7 +19,7 @@ class Holiday {
     const month = date.getUTCMonth() + 1
     const day = date.getUTCDate() + 1
 
-    if (month === 12 && day === 25) {
+    if (month === 12 && (day === 25 || day === 24)) {
       return 'Merry Xmas'
     }
     return 'Today is not Xmas'

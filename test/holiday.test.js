@@ -24,8 +24,18 @@ describe('Merry Christmas 的判斷函式 with function', () => {
     sayHelloShouldBe('Merry Xmas')
   })
 
+  it('今天是聖誕節當今天是 12/24 (*因應需求異動)', () => {
+    givenToday(11, 24)
+    sayHelloShouldBe('Merry Xmas')
+  })
+
   it('今天不是聖誕節', () => {
     givenToday(11, 26)
+    sayHelloShouldBe('Today is not Xmas')
+  })
+
+  it('今天不是聖誕節當今天是 11/24 (*因應需求異動)', () => {
+    givenToday(10, 24)
     sayHelloShouldBe('Today is not Xmas')
   })
 
@@ -71,8 +81,18 @@ describe('Merry Christmas 的判斷函式 with class', () => {
     sayHelloShouldBe('Merry Xmas')
   })
 
+  it('今天是聖誕節當今天是 12/24 (*因應需求異動)', () => {
+    givenToday(11, 24)
+    sayHelloShouldBe('Merry Xmas')
+  })
+
   it('今天不是聖誕節', () => {
     givenToday(11, 26)
+    sayHelloShouldBe('Today is not Xmas')
+  })
+
+  it('今天不是聖誕節當今天是 11/24 (*因應需求異動)', () => {
+    givenToday(10, 24)
     sayHelloShouldBe('Today is not Xmas')
   })
 })
