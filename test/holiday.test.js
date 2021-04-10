@@ -1,16 +1,35 @@
-import { expect, jest } from '@jest/globals'
+import { beforeEach, expect, jest } from '@jest/globals'
 import { /* getToday, */ holidayFunction, HolidayClass } from '../src/holiday'
 
 describe('Merry Christmas 的判斷函式 with function', () => {
-  xit('12/25 當天未傳入日期時，回傳 "Merry Xmas"', () => {
-    // getToday = () => {
-    //   return new Date('12/25')
-    // }
+  let tempGivenDate
+  let givenToday
+  let sayHelloShouldBe
 
-    expect(holidayFunction()).toBe('Merry Xmas')
+  beforeEach(() => {
+    tempGivenDate = undefined
+
+    givenToday = (month, day) => {
+      tempGivenDate = new Date(2000, month, day)
+      return new Date(2000, month, day)
+    }
+
+    sayHelloShouldBe = (expected) => {
+      expect(holidayFunction(tempGivenDate)).toBe(expected)
+    }
   })
 
-  it('12/25 當天未傳入日期時，回傳 "Merry Xmas" with jest.spyOn', () => {
+  it('今天是聖誕節', () => {
+    givenToday(11, 25)
+    sayHelloShouldBe('Merry Xmas')
+  })
+
+  it('今天不是聖誕節', () => {
+    givenToday(11, 26)
+    sayHelloShouldBe('Today is not Xmas')
+  })
+
+  it('今天是聖誕節 with jest.spyOn', () => {
     const mockDate = new Date('12/25')
     let spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
@@ -18,44 +37,42 @@ describe('Merry Christmas 的判斷函式 with function', () => {
     spy.mockRestore()
   })
 
-  it('12/25 當天有傳入日期時，回傳 "Merry Xmas"', () => {
-    const mockDate = new Date('12/25')
-
-    expect(holidayFunction(mockDate)).toBe('Merry Xmas')
-  })
-
-  it('非 12/25 當天未傳入日期時，回傳 "Today is not Xmas" with jest.spyOn', () => {
+  it('今天不是聖誕節 with jest.spyOn', () => {
     const mockDate = new Date('12/26')
     let spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
     expect(holidayFunction()).toBe('Today is not Xmas')
     spy.mockRestore()
   })
-
-  it('非 12/25 當天有傳入日期時，回傳 "Today is not Xmas"', () => {
-    const mockDate = new Date('12/26')
-
-    expect(holidayFunction(mockDate)).toBe('Today is not Xmas')
-  })
 })
 
 // 找到依賴，隔絕依賴
 describe('Merry Christmas 的判斷函式 with class', () => {
-  it('12/25 當天，回傳 "Merry Xmas"', () => {
-    const testHoliday = new HolidayClass()
-    testHoliday.getToday = () => {
-      return new Date('2020/12/25')
+  let testHoliday
+  let givenToday
+  let sayHelloShouldBe
+
+  beforeEach(() => {
+    testHoliday = new HolidayClass()
+
+    givenToday = (month, day) => {
+      testHoliday.getToday = () => {
+        return new Date(2000, month, day)
+      }
     }
 
-    expect(testHoliday.sayHello()).toBe('Merry Xmas')
+    sayHelloShouldBe = (expected) => {
+      expect(testHoliday.sayHello()).toBe(expected)
+    }
   })
 
-  it('非 12/25 時，回傳 "Today is not Xmas"', () => {
-    const testHoliday = new HolidayClass()
-    testHoliday.getToday = () => {
-      return new Date('2020/12/26')
-    }
+  it('今天是聖誕節', () => {
+    givenToday(11, 25)
+    sayHelloShouldBe('Merry Xmas')
+  })
 
-    expect(testHoliday.sayHello()).toBe('Today is not Xmas')
+  it('今天不是聖誕節', () => {
+    givenToday(11, 26)
+    sayHelloShouldBe('Today is not Xmas')
   })
 })
