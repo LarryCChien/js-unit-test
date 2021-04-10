@@ -1,19 +1,24 @@
-import {Profile} from "./profile";
-import * as otp from "./otp";
+/* eslint-disable class-methods-use-this */
+import { Profile } from './profile'
+import * as otp from './otp'
 
 export class Authentication {
-    is_valid(account, password) {
-        const profile = new Profile();
-        const password_from_profile = profile.get_password(account);
-        // const otp = new Otp();
-        const token = otp.get_token();
-        console.log(`password:${password_from_profile}, token:${token}`);
+  isValid(account, password) {
+    const passwordFromProfile = this.getPassword(account)
 
-        const valid_password = password_from_profile + token;
-        if (valid_password === password) {
-            return true;
-        } else {
-            return false;
-        }
+    // const otp = new Otp();
+    const token = otp.getToken()
+    // console.log(`password:${passwordFromProfile}, token:${token}`)
+
+    const validPassword = passwordFromProfile + token
+    if (validPassword === password) {
+      return true
     }
+    return false
+  }
+
+  getPassword(account) {
+    const profile = new Profile()
+    return profile.getPassword(account)
+  }
 }

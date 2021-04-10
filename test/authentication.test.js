@@ -1,8 +1,19 @@
-import {Authentication} from "../src/authentication";
+import { jest } from '@jest/globals'
+import { Authentication } from '../src/authentication'
+import * as otp from '../src/otp'
 
-describe('authenticate account is valid', function () {
-    it('should be valid', () => {
-        let authentication = new Authentication();
-        expect(authentication.is_valid('joey', '91000000')).toBe(true);
-    });
-});
+jest.mock('../src/otp')
+
+describe('authenticate account is valid', () => {
+  it('should be valid', () => {
+    let authentication = new Authentication()
+
+    const fakeGetPassword = jest.fn()
+    authentication.getPassword = fakeGetPassword
+    fakeGetPassword.mockReturnValueOnce('91')
+
+    otp.getToken.mockReturnValueOnce('000000')
+
+    expect(authentication.isValid('joey', '91000000')).toBe(true)
+  })
+})
